@@ -1,1 +1,1 @@
-This is a starter template for [Learn Next.js](https://nextjs.org/learn).
+This is the website for a trail cam capstone project at the University of Manitoba in 2020.
