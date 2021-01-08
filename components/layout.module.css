@@ -22,4 +22,18 @@
 
 .backToHome {
   margin: 3rem 0 0;
+
+}
+.loginForm{
+  display: flex;
+
+  position: relative;
+  left: 33%;
+  top: 33%;
+  padding-bottom: 25px;
+}
+
+.menuIcon{
+  margin-right: 5px;
+  color: black;
 }

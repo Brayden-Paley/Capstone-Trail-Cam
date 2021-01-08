@@ -50,3 +50,54 @@
 .lightText {
   color: #999;
 }
+
+.paper{
+  color: #808080;
+}
+
+.grid{
+  left: 50%;
+  top: 50%;
+  align-items: center;
+}
+
+.gridItem{
+  padding-left: 37px;
+}
+
+.loginPageButton{
+  padding-right: 25px;
+  padding-left: 25px;
+}
+
+.signUpPageButton{
+  padding-right: 25px;
+  padding-left: 25px;
+}
+
+.logoutButton{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  float: right;
+  color: pink;
+  padding-left: 100px;
+}
+
+.appBar {
+  width: calc(100% - 240px);
+  padding-left: 210px;
+}
+
+.toolbar{
+  color:purple;
+}
+
+.drawer{
+  width: 240px;
+  flex-Shrink: 0;
+}
+
+.drawerPaper{
+  width: 240px; 
+}
