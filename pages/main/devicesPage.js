@@ -33,7 +33,7 @@ import Grid from '@material-ui/core/Grid';
 
 
 const registerDevice = async (headers) => {
-  var res = await fetch('http://0.0.0.0:8080/register-device', {
+  var res = await fetch('http://54.174.96.252:8080/register-device', {
   method: 'GET',
   headers: headers
 });
@@ -47,7 +47,7 @@ function _confirmRegistration(res){
     return res;
   } else {
     //likely change this so that it logs you out instead, this is because if this doesn't work, that means your token expired.
-    alert("Device not registered, please try again");
+    window.location.href = "http://54.174.96.252:3000"
   }
 }
 
@@ -119,7 +119,7 @@ export default class DevicesPage extends React.Component {
             <Divider />
             <List>
               <ListItem button key= 'New Pictures' onClick={() => {
-                window.location.href = "http://localhost:3000/main/homePage"
+                window.location.href = "http://54.174.96.252:3000/main/homePage"
               }}>
                 <ListItemIcon>
                   <MailIcon/>
