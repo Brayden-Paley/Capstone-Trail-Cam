@@ -22,8 +22,7 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import StarRateIcon from '@material-ui/icons/StarRate';
 import ShareIcon from '@material-ui/icons/Share';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
-import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import ListSubheader from '@material-ui/core/ListSubheader';
@@ -45,7 +44,6 @@ const classes = makeStyles((theme) => ({
     width: drawerWidth,
   },
   gridRoot: {
-    width: 200,
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
@@ -53,156 +51,175 @@ const classes = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   gridList: {
-    width: 2000,
+    width: 500,
     height: 450,
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
-  }
+  },
 }));
 
-const testImage = '/images/profile.jpeg';
 
 
-const tileData = [
-     {
-       img: testImage,
-       title: 'Image1',
-       author: 'author',
-     },
-     {
-       img: testImage,
-       title: 'Image2',
-       author: 'author',
-     },
-     {
-      img: testImage,
-      title: 'Image3',
-      author: 'author',
-    },
-    {
-      img: testImage,
-      title: 'Image4',
-      author: 'author',
-    },
-    {
-      img: testImage,
-      title: 'Image5',
-      author: 'author',
-    },
-    {
-      img: testImage,
-      title: 'Image6',
-      author: 'author',
-    },
-    {
-      img: testImage,
-      title: 'Image4',
-      author: 'author',
-    },
-    {
-      img: testImage,
-      title: 'Image5',
-      author: 'author',
-    },
-    {
-      img: testImage,
-      title: 'Image6',
-      author: 'author',
-    },
-    {
-      img: testImage,
-      title: 'Image4',
-      author: 'author',
-    },
-    {
-      img: testImage,
-      title: 'Image5',
-      author: 'author',
-    },
-    {
-      img: testImage,
-      title: 'Image6',
-      author: 'author',
-    },
-   ];
+const pictureData = async(headers) => {
+  var res = await fetch('http://localhost:8080/all-pictures', {
+    method: 'GET',
+    headers: headers,
+    mode: 'cors'
+  });
+  res = await res.json();
+  return getTileData(res);
+}
 
-export default function HomePage() {
-  return (
-    <Layout>
-      <div className={classes.root}>
-        <AppBar className={utilStyles.appBar}>
-          <Toolbar className={classes.toolbar}>
-            <Typography style={{ flex: 1 }} variant="h6" noWrap>
-              Home Page
-            </Typography>
-            <div>
-              <Link href="/" >
-                <div>
-                  <Button onClick={() => { }} variant="contained"> Log out</Button>
-                </div>
-              </Link>
-            </div>
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          className={utilStyles.drawer}
-          variant="permanent"
-          anchor="left"
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-        >
-          <Divider />
-          <List>
-            {['New Pictures', 'Saved', 'Share', 'Stats'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index === 0 ? <MailIcon /> : index === 1 ? <StarRateIcon /> : index === 2 ? <ShareIcon /> : <EqualizerIcon />} </ListItemIcon>
-                <ListItemText primary={text} />
+async function getTileData(res){
+  if (res.status === 'success'){
+    console.log(res.images);
+    return res.images;
+  } else {
+    window.location.href = "http://localhost:3000"
+  }
+}
+
+
+
+
+export default class HomePage extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      tileData : [  
+        ]
+    };
+  }
+
+  componentDidMount() {
+    const myHeaders = new Headers();
+    myHeaders.append('Authorization', 'Bearer ' + localStorage.getItem('Authorization'));
+    pictureData(myHeaders).then(function(response){
+      this.setState({ tileData: response });
+        }.bind(this));
+  }
+  
+
+  render(){
+    return (
+      <Layout>
+        <div className={classes.root}>
+          <AppBar className={utilStyles.appBar}>
+            <Toolbar className={classes.toolbar}>
+              <Typography  style={{ flex: 1 }} variant="h6" noWrap>
+                Home Page
+              </Typography>
+              <div>
+                <Link href="/" >
+                  <div>
+                    <Button onClick={() => { }} variant="contained"> Log out</Button>
+                  </div>
+                </Link>
+              </div>
+            </Toolbar>
+          </AppBar>
+          <Drawer
+            className={utilStyles.drawer}
+            variant="permanent"
+            anchor="left"
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+          >
+            <Divider />
+            <List>
+              <ListItem button key= 'New Pictures' onClick={() => {
+                const myHeaders = new Headers();
+                myHeaders.append('Authorization', 'Bearer ' + localStorage.getItem('Authorization'));
+                pictureData(myHeaders).then(function(response){
+                  this.setState({ tileData: response });
+                    }.bind(this));
+              }}>
+                <ListItemIcon>
+                  <MailIcon/>
+                  
+                </ListItemIcon>
+                <ListItemText primary='New Pictures'/>
               </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {['All Pictures', 'Deleted'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <DeleteForeverIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
+              <ListItem button key= 'Saved' onClick={() => {
+              }}>
+                <ListItemIcon>
+                  <StarRateIcon/>
+                  
+                </ListItemIcon>
+                <ListItemText primary='Saved'/>
               </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {['Add Device', 'Remove Device'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <AddIcon /> : <RemoveIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
+              <ListItem button key= 'Share' onClick={() => {
+              }}>
+                <ListItemIcon>
+                  <ShareIcon/>
+                  
+                </ListItemIcon>
+                <ListItemText primary='Share'/>
               </ListItem>
-            ))}
-          </List>
-        </Drawer>
-      </div>
-      <div className={classes.gridRoot}>
-        <GridList cellHeight={180} cols={3} className={classes.gridList}>
-          <GridListTile key="Subheader" cols={3} style={{ height: 'auto' }}>
-            <ListSubheader component="div">Photos</ListSubheader>
-          </GridListTile>
-          {tileData.map((tile) => (
-            <GridListTile key={tile.img}>
-              <img src={tile.img} alt={tile.title} />
-              <GridListTileBar
-                title={tile.title}
-                subtitle={<span>by: {tile.author}</span>}
-                actionIcon={
-                  <IconButton aria-label={`info about ${tile.title}`} className={classes.icon}>
-                    <InfoIcon />
-                  </IconButton>
-                }
-              />
+              <ListItem button key= 'Stats' onClick={() => {
+              }}>
+                <ListItemIcon>
+                  <EqualizerIcon/>
+                </ListItemIcon>
+                <ListItemText primary='Stats'/>
+              </ListItem>
+            </List>
+            <Divider />
+            <List>
+              <ListItem button key= 'All Pictures' onClick={() => {
+              }}>
+                <ListItemIcon>
+                  <InboxIcon/>
+                </ListItemIcon>
+                <ListItemText primary='All Pictures'/>
+              </ListItem>
+              <ListItem button key= 'Deleted' onClick={() => {
+              }}>
+                <ListItemIcon>
+                  <DeleteForeverIcon/>
+                </ListItemIcon>
+                <ListItemText primary='Deleted'/>
+              </ListItem>
+            </List>
+            <Divider />
+            <List>
+            <ListItem button key= 'Devices' onClick={() => {
+              window.location.href = "http://localhost:3000/main/devicesPage"
+              }}>
+                <ListItemIcon>
+                  <CameraAltIcon/>
+                </ListItemIcon>
+                <ListItemText primary='Devices'/>
+              </ListItem>
+            </List>
+          </Drawer>
+        </div>
+        <div className={utilStyles.gridRoot}>
+          <GridList cellHeight={200} cellWidth={250} cols={3} className={classes.gridList}>
+            <GridListTile key="Subheader" cols={3} style={{ height: 'auto' }}>
+              <Typography className ={utilStyles.photosText}>Photos</Typography>
             </GridListTile>
-          ))}
-        </GridList>
-      </div>
-    </Layout>
-  )
+            {this.state.tileData.map((tile) => (
+              <GridListTile key={tile.img}>
+                <img src={tile.img} /*alt={tile.title}
+                
+                /*<GridListTileBar
+                  title={tile.title}
+                  subtitle={<span>by: {tile.author}</span>}
+                  actionIcon={
+                    <IconButton aria-label={`info about ${tile.title}`} className={classes.icon}>
+                      <InfoIcon />
+                    </IconButton>
+                  }
+                />*/ />
+                
+              </GridListTile>
+            ))}
+          </GridList>
+        </div>
+      </Layout>
+    )
+  }
 }

@@ -33,6 +33,16 @@
   padding-bottom: 25px;
 }
 
+.devicesForm{
+  display: flex;
+
+  position: relative;
+  left: 33%;
+  top: 33%;
+  padding-bottom: 25px;
+  padding-left: 50px;
+}
+
 .menuIcon{
   margin-right: 5px;
   color: black;

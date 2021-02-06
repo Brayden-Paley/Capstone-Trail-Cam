@@ -61,8 +61,12 @@
   align-items: center;
 }
 
-.gridItem{
-  padding-left: 37px;
+.gridItemLogin{
+  padding-left: 39px;
+}
+
+.gridItemDevices{
+  padding-left: 77px;
 }
 
 .loginPageButton{
@@ -100,4 +104,22 @@
 
 .drawerPaper{
   width: 240px; 
+}
+
+.addRemoveDevice{
+  padding-top: 50px;
+  padding-left: 150px;
+  padding-bottom: 30px;
+}
+
+.photosText{
+  padding-top: 20px;
+}
+
+.gridRoot {
+  margin-left: -100px;
+  width: 1000px;
+  flex: 'wrap';
+  justify-Content: 'space-around';
+  overflow: 'hidden';
 }
