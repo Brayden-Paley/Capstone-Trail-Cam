@@ -33,7 +33,7 @@ import Grid from '@material-ui/core/Grid';
 
 
 const registerDevice = async (headers) => {
-  var res = await fetch('http://54.174.96.252:8080/register-device', {
+  var res = await fetch('http://localhost:8080/register-device', {
   method: 'GET',
   headers: headers
 });
@@ -47,7 +47,7 @@ function _confirmRegistration(res){
     return res;
   } else {
     //likely change this so that it logs you out instead, this is because if this doesn't work, that means your token expired.
-    window.location.href = "http://54.174.96.252:3000"
+    window.location.href = "http://localhost:3000"
   }
 }
 
@@ -102,7 +102,9 @@ export default class DevicesPage extends React.Component {
               <div>
                 <Link href="/" >
                   <div>
-                    <Button onClick={() => { }} variant="contained"> Log out</Button>
+                    <Button onClick={() => {
+                      localStorage.setItem('Authorization', '');
+                     }} variant="contained"> Log out</Button>
                   </div>
                 </Link>
               </div>

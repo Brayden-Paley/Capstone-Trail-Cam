@@ -62,7 +62,7 @@ const classes = makeStyles((theme) => ({
 
 
 const pictureData = async(headers) => {
-  var res = await fetch('http://54.174.96.252:8080/all-pictures', {
+  var res = await fetch('http://localhost:8080/all-pictures', {
     method: 'GET',
     headers: headers,
     mode: 'cors'
@@ -74,9 +74,10 @@ const pictureData = async(headers) => {
 async function getTileData(res){
   if (res.status === 'success'){
     console.log(res.images);
+    
     return res.images;
   } else {
-    window.location.href = "http://54.174.96.252:3000"
+    window.location.href = "http://localhost:3000"
   }
 }
 
@@ -87,7 +88,8 @@ export default class HomePage extends React.Component {
   constructor() {
     super();
     this.state = {
-      tileData : [  
+      tileData : [
+
         ]
     };
   }
@@ -186,7 +188,7 @@ export default class HomePage extends React.Component {
             <Divider />
             <List>
             <ListItem button key= 'Devices' onClick={() => {
-              window.location.href = "http://54.174.96.252:3000/main/devicesPage"
+              window.location.href = "http://localhost:3000/main/devicesPage"
               }}>
                 <ListItemIcon>
                   <CameraAltIcon/>

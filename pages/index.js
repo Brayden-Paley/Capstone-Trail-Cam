@@ -9,7 +9,7 @@ import styles from '../components/layout.module.css'
 import TextField from '@material-ui/core/TextField';
 
 const login = async (headers) => {
-  var res = await fetch('http://54.174.96.252:8080/login', {
+  var res = await fetch('http://localhost:8080/login', {
   method: 'GET',
   headers: headers
 });
@@ -21,7 +21,7 @@ _loginRedirect(res)
 
 function _loginRedirect(res){
   if (res.status === 'success') {
-    window.location.href = "http://54.174.96.252:3000/main/homePage"
+    window.location.href = "http://localhost:3000/main/homePage"
   } else {
     alert("Login failed, please try again or sign up");
   }
@@ -29,7 +29,7 @@ function _loginRedirect(res){
 
 
 const register = async (headers) => {
-  var res = await fetch('http://54.174.96.252:8080/register', {
+  var res = await fetch('http://localhost:8080/register', {
   method: 'POST',
   headers: headers
 });
