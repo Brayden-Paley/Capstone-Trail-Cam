@@ -1,14 +1,10 @@
 import Link from 'next/link'
-import Head from 'next/head'
 import Layout from '../../components/homeLayout'
 import { AppBar } from '@material-ui/core'
-import styles from '../../components/layout.module.css'
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
 import utilStyles from '../../styles/utils.module.css'
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import Divider from '@material-ui/core/Divider';
 import MailIcon from '@material-ui/icons/Mail';
 import ListItem from '@material-ui/core/ListItem';
@@ -25,10 +21,6 @@ import EqualizerIcon from '@material-ui/icons/Equalizer';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import InfoIcon from '@material-ui/icons/Info';
-
 
 
 const classes = makeStyles((theme) => ({
@@ -61,7 +53,7 @@ const classes = makeStyles((theme) => ({
 
 
 
-const pictureData = async(headers) => {
+const pictureDataAll = async(headers) => {
   var res = await fetch('http://localhost:8080/all-pictures', {
     method: 'GET',
     headers: headers,
@@ -70,6 +62,18 @@ const pictureData = async(headers) => {
   res = await res.json();
   return getTileData(res);
 }
+
+const pictureDataNew = async(headers) => {
+  var res = await fetch('http://localhost:8080/new-pictures', {
+    method: 'GET',
+    headers: headers,
+    mode: 'cors'
+  });
+  res = await res.json();
+  return getTileData(res);
+}
+
+
 
 async function getTileData(res){
   if (res.status === 'success'){
@@ -102,7 +106,6 @@ export default class HomePage extends React.Component {
         }.bind(this));
   }
   
-
   render(){
     return (
       <Layout>
@@ -134,7 +137,7 @@ export default class HomePage extends React.Component {
               <ListItem button key= 'New Pictures' onClick={() => {
                 const myHeaders = new Headers();
                 myHeaders.append('Authorization', 'Bearer ' + localStorage.getItem('Authorization'));
-                pictureData(myHeaders).then(function(response){
+                pictureDataNew(myHeaders).then(function(response){
                   this.setState({ tileData: response });
                     }.bind(this));
               }}>
@@ -171,6 +174,11 @@ export default class HomePage extends React.Component {
             <Divider />
             <List>
               <ListItem button key= 'All Pictures' onClick={() => {
+                const myHeaders = new Headers();
+                myHeaders.append('Authorization', 'Bearer ' + localStorage.getItem('Authorization'));
+                pictureDataAll(myHeaders).then(function(response){
+                  this.setState({ tileData: response });
+                    }.bind(this));
               }}>
                 <ListItemIcon>
                   <InboxIcon/>
